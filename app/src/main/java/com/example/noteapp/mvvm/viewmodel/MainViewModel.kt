@@ -11,7 +11,9 @@ class MainViewModel : ViewModel() {
     private var notesLiveData = MutableLiveData<List<Note>>()
 
     init {
-        notesLiveData.value = NotesRepository.getNotes()
+        NotesRepository.getNotes().observeForever {
+            notesLiveData.value = it
+        }
     }
 
     fun getNotesLiveData(): LiveData<List<Note>> = notesLiveData

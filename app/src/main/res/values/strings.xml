@@ -1,3 +1,13 @@
 <resources>
+    <!-- App -->
     <string name="app_name">NoteApp</string>
+    <string name="toolbar_title">Notes</string>
+
+    <!-- Main -->
+    <string name="fab_description">Add a note</string>
+
+    <!-- Note -->
+    <string name="note_title_hint">Title</string>
+    <string name="note_text_hint">Text</string>
+    <string name="new_note">New Note</string>
 </resources>

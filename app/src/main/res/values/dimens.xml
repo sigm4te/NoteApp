@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main -->
+    <dimen name="fab_main_margin">16dp</dimen>
+
+    <!-- Cards -->
+    <dimen name="cv_item_card_margin">4dp</dimen>
+    <dimen name="cv_item_card_corner">5dp</dimen>
+    <dimen name="cv_item_text_margin">8dp</dimen>
+
+    <!-- Note -->
+    <dimen name="layout_note_margin">5dp</dimen>
+</resources>
