@@ -3,3 +3,5 @@
 
 В приложении использовано:
 * MVVM
+* View Binding
+* Cloud Firestore
