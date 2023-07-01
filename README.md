@@ -5,3 +5,4 @@
 * MVVM
 * View Binding
 * Firebase (Firestore, Auth)
+* Koin
