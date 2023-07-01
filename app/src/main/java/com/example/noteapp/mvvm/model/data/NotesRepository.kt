@@ -2,11 +2,8 @@ package com.example.noteapp.mvvm.model.data
 
 import com.example.noteapp.mvvm.model.data.entity.Note
 import com.example.noteapp.mvvm.model.datasource.DataProvider
-import com.example.noteapp.mvvm.model.datasource.FirestoreProvider
 
-object NotesRepository {
-
-    private val dataProvider: DataProvider = FirestoreProvider()
+class NotesRepository(private val dataProvider: DataProvider) {
 
     fun getCurrentUser() = dataProvider.getCurrentUser()
     fun getNotes() = dataProvider.subscribeToAllNotes()

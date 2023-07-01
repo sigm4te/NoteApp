@@ -9,7 +9,7 @@ import com.example.noteapp.mvvm.model.error.NoAuthException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class FirestoreProvider : DataProvider {
+class FirestoreProvider(private val auth: FirebaseAuth, private val store: FirebaseFirestore) : DataProvider {
 
     companion object {
         private const val NOTES_COLLECTION = "notes"
@@ -17,8 +17,7 @@ class FirestoreProvider : DataProvider {
     }
 
     private val currentUser
-        get() = FirebaseAuth.getInstance().currentUser
-    private val store by lazy { FirebaseFirestore.getInstance() }
+        get() = auth.currentUser
     private val notesReference
         get() = currentUser?.let {
             store.collection(USERS_COLLECTION).document(it.uid).collection(NOTES_COLLECTION)

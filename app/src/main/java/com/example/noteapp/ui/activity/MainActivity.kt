@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.noteapp.R
 import com.example.noteapp.databinding.ActivityMainBinding
@@ -16,6 +15,7 @@ import com.example.noteapp.mvvm.viewmodel.MainViewModel
 import com.example.noteapp.mvvm.viewstate.MainViewState
 import com.example.noteapp.ui.adapter.NotesAdapter
 import com.firebase.ui.auth.AuthUI
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<List<Note>?, MainViewState>() {
 
@@ -27,9 +27,8 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>() {
 
     private lateinit var adapter: NotesAdapter
     private lateinit var binding: ActivityMainBinding
-    override val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
-    }
+
+    override val viewModel: MainViewModel by viewModel()
     override val layout: View by lazy {
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.root
@@ -82,7 +81,7 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>() {
     }
 
     private fun onLogout() {
-        AuthUI.getInstance().signOut(this).addOnCompleteListener{
+        AuthUI.getInstance().signOut(this).addOnCompleteListener {
             startActivity(Intent(this, SplashActivity::class.java))
             finish()
         }

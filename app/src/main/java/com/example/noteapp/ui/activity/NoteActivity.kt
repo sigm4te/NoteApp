@@ -9,12 +9,12 @@ import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.ViewModelProvider
 import com.example.noteapp.R
 import com.example.noteapp.databinding.ActivityNoteBinding
 import com.example.noteapp.mvvm.model.data.entity.Note
 import com.example.noteapp.mvvm.viewmodel.NoteViewModel
 import com.example.noteapp.mvvm.viewstate.NoteViewState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
@@ -33,9 +33,8 @@ class NoteActivity : BaseActivity<Note?, NoteViewState>() {
     }
 
     private lateinit var binding: ActivityNoteBinding
-    override val viewModel: NoteViewModel by lazy {
-        ViewModelProvider(this).get(NoteViewModel::class.java)
-    }
+
+    override val viewModel: NoteViewModel by viewModel()
     override val layout: View by lazy {
         binding = ActivityNoteBinding.inflate(layoutInflater)
         binding.root
@@ -81,7 +80,8 @@ class NoteActivity : BaseActivity<Note?, NoteViewState>() {
         note?.let {
             binding.etNoteTitle.setTextKeepState(it.title)
             binding.etNoteText.setTextKeepState(it.text)
-            supportActionBar?.title = SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(it.lastChanged)
+            supportActionBar?.title =
+                SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(it.lastChanged)
             val color = when (it.color) {
                 Note.Color.WHITE -> R.color.white
                 Note.Color.RED -> R.color.red

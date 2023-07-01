@@ -5,7 +5,7 @@ import com.example.noteapp.mvvm.model.data.NotesRepository
 import com.example.noteapp.mvvm.model.data.entity.Note
 import com.example.noteapp.mvvm.viewstate.NoteViewState
 
-class NoteViewModel : BaseViewModel<Note?, NoteViewState>() {
+class NoteViewModel(private val notesRepository: NotesRepository) : BaseViewModel<Note?, NoteViewState>() {
 
     init {
         viewStateLiveData.value = NoteViewState()
@@ -18,7 +18,7 @@ class NoteViewModel : BaseViewModel<Note?, NoteViewState>() {
     }
 
     fun loadNote(noteId: String) {
-        val noteLiveData = NotesRepository.getNoteById(noteId)
+        val noteLiveData = notesRepository.getNoteById(noteId)
         noteLiveData.observeForever { result ->
             result ?: return@observeForever
             when (result) {
@@ -30,7 +30,7 @@ class NoteViewModel : BaseViewModel<Note?, NoteViewState>() {
 
     override fun onCleared() {
         pendingNote?.let {
-            NotesRepository.saveNote(it)
+            notesRepository.saveNote(it)
         }
     }
 }

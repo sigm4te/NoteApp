@@ -1,12 +1,12 @@
 package com.example.noteapp.mvvm.viewmodel
 
 import androidx.lifecycle.Observer
-import com.example.noteapp.mvvm.model.data.Result
 import com.example.noteapp.mvvm.model.data.NotesRepository
+import com.example.noteapp.mvvm.model.data.Result
 import com.example.noteapp.mvvm.model.data.entity.Note
 import com.example.noteapp.mvvm.viewstate.MainViewState
 
-class MainViewModel : BaseViewModel<List<Note>?, MainViewState>() {
+class MainViewModel(private val notesRepository: NotesRepository) : BaseViewModel<List<Note>?, MainViewState>() {
 
     private val notesObserver = Observer<Result> { result ->
         result ?: return@Observer
@@ -15,15 +15,15 @@ class MainViewModel : BaseViewModel<List<Note>?, MainViewState>() {
             is Result.Error -> viewStateLiveData.value = MainViewState(error = result.error)
         }
     }
-    private val notesRepository = NotesRepository.getNotes()
+    private val notes = notesRepository.getNotes()
 
     init {
         viewStateLiveData.value = MainViewState()
-        notesRepository.observeForever(notesObserver)
+        notes.observeForever(notesObserver)
     }
 
     override fun onCleared() {
         super.onCleared()
-        notesRepository.removeObserver(notesObserver)
+        notes.removeObserver(notesObserver)
     }
 }
