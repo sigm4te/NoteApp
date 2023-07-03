@@ -10,4 +10,5 @@ interface DataProvider {
     fun subscribeToAllNotes() : LiveData<Result>
     fun getNoteById(id: String) : LiveData<Result>
     fun saveNote(note: Note) : LiveData<Result>
+    fun deleteNote(id: String) : LiveData<Result>
 }

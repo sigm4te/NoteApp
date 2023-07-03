@@ -13,16 +13,6 @@ data class Note(
     var lastChanged: Date = Date()
 ) : Parcelable {
 
-    enum class Color {
-        WHITE,
-        RED,
-        GREEN,
-        BLUE,
-        YELLOW,
-        VIOLET,
-        PINK
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

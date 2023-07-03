@@ -2,6 +2,7 @@
 <resources>
     <!-- Main -->
     <dimen name="fab_main_margin">16dp</dimen>
+    <dimen name="toolbar_main_margin">1dp</dimen>
 
     <!-- Cards -->
     <dimen name="cv_item_card_margin">4dp</dimen>
