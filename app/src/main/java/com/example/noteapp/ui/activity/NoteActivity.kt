@@ -49,18 +49,13 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        override fun afterTextChanged(s: Editable?) {
-            saveNote()
-        }
+        override fun afterTextChanged(s: Editable?) { saveNote() }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val noteId = intent.getStringExtra(NOTE_KEY)
-        noteId?.let {
-            viewModel.loadNote(it)
-        } ?: newNote()
+        noteId?.let { viewModel.loadNote(it) } ?: newNote()
 
         initViews()
         initListeners()
@@ -119,9 +114,7 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
                     etNoteText.text.toString(),
                     color
                 )
-            note?.let {
-                viewModel.save(it)
-            }
+            note?.let { viewModel.save(it) }
         }
     }
 

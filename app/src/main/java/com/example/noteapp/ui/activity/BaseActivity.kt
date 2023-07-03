@@ -24,9 +24,7 @@ abstract class BaseActivity<T, S : BaseViewState<T>> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        layout?.let {
-            setContentView(it)
-        }
+        layout?.let { setContentView(it) }
         viewModel.getViewState().observe(this, Observer { state ->
             state ?: return@Observer
             state.error?.let {
@@ -64,9 +62,7 @@ abstract class BaseActivity<T, S : BaseViewState<T>> : AppCompatActivity() {
     private fun renderError(error: Throwable) {
         when (error) {
             is NoAuthException -> startLogin()
-            else -> error.message?.let {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-            }
+            else -> error.message?.let { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
         }
     }
 }

@@ -36,27 +36,21 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         initViews()
         initListeners()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean =
-        binding.toolbarMain.inflateMenu(R.menu.main).let { true }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean = binding.toolbarMain.inflateMenu(R.menu.main).let { true }
 
     private fun initViews() {
         setSupportActionBar(binding.toolbarMain)
         binding.rvMain.layoutManager = GridLayoutManager(this, 2)
-        adapter = NotesAdapter {
-            NoteActivity.start(this, it.id)
-        }
+        adapter = NotesAdapter { NoteActivity.start(this, it.id) }
         binding.rvMain.adapter = adapter
     }
 
     private fun initListeners() {
-        binding.fabMain.setOnClickListener {
-            NoteActivity.start(this)
-        }
+        binding.fabMain.setOnClickListener { NoteActivity.start(this) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
@@ -66,9 +60,7 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>() {
         }
 
     override fun renderData(data: List<Note>?) {
-        data?.let {
-            adapter.notes = it
-        }
+        data?.let { adapter.notes = it }
     }
 
     private fun showLogoutDialog() {
@@ -76,7 +68,7 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>() {
             .setTitle(R.string.logout_dialog_title)
             .setMessage(R.string.logout_dialog_message)
             .setPositiveButton(R.string.dialog_ok) { _, _ -> onLogout() }
-            .setNegativeButton(R.string.dialog_cancel) { d, _ -> d.dismiss() }
+            .setNegativeButton(R.string.dialog_cancel) { dialog, _ -> dialog.dismiss() }
             .show()
     }
 

@@ -19,9 +19,7 @@ class SplashActivity : BaseActivity<Boolean?, SplashViewState>() {
     }
 
     override fun renderData(data: Boolean?) {
-        data?.takeIf { it }?.let {
-            startMainActivity()
-        }
+        data?.takeIf { it }?.let { startMainActivity() }
     }
 
     private fun startMainActivity() {
