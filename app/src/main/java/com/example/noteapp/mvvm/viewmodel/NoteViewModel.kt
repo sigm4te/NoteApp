@@ -19,8 +19,7 @@ class NoteViewModel(private val notesRepository: NotesRepository) : BaseViewMode
     }
 
     fun loadNote(noteId: String) {
-        val noteLiveData = notesRepository.getNoteById(noteId)
-        noteLiveData.observeForever { result ->
+        notesRepository.getNoteById(noteId).observeForever { result ->
             result ?: return@observeForever
             when (result) {
                 is Result.Success<*> -> {

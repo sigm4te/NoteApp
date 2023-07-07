@@ -11,7 +11,7 @@ class MainViewModel(private val notesRepository: NotesRepository) : BaseViewMode
 
     private val notesObserver = Observer<Result> { result ->
         result ?: return@Observer
-        when(result){
+        when (result) {
             is Result.Success<*> -> viewStateLiveData.value = MainViewState(notes = result.data as? List<Note>)
             is Result.Error -> viewStateLiveData.value = MainViewState(error = result.error)
         }
