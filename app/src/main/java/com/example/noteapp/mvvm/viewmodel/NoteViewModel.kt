@@ -4,6 +4,7 @@ import com.example.noteapp.mvvm.model.data.NotesRepository
 import com.example.noteapp.mvvm.model.data.Result
 import com.example.noteapp.mvvm.model.data.entity.Note
 import com.example.noteapp.mvvm.viewstate.NoteViewState
+import org.jetbrains.annotations.TestOnly
 
 class NoteViewModel(private val notesRepository: NotesRepository) : BaseViewModel<NoteViewState.Data, NoteViewState>() {
 
@@ -48,5 +49,10 @@ class NoteViewModel(private val notesRepository: NotesRepository) : BaseViewMode
 
     override fun onCleared() {
         pendingNote?.let { notesRepository.saveNote(it) }
+    }
+
+    @TestOnly
+    fun onClearedTesting() {
+        onCleared()
     }
 }
