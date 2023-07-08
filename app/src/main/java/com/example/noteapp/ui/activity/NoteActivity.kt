@@ -51,6 +51,7 @@ class NoteActivity : BaseActivity<Pair<Note?, Boolean>>() {
         intent.getStringExtra(NOTE_KEY)?.let { viewModel.loadNote(it) } ?: newNote()
 
         initViews()
+        initListeners()
     }
 
     private fun initViews() {
@@ -67,7 +68,6 @@ class NoteActivity : BaseActivity<Pair<Note?, Boolean>>() {
         currentNote = data.first
         currentColor = currentNote?.color ?: Color.WHITE
         initNote()
-        initListeners()
     }
 
     private fun initNote() {
@@ -76,17 +76,18 @@ class NoteActivity : BaseActivity<Pair<Note?, Boolean>>() {
             binding.etNoteText.setTextKeepState(it.text)
             setActionbarText(SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(it.lastChanged))
             setToolbarColor(it.color)
+            editedFlag = false
         } ?: newNote()
     }
 
     private fun initListeners() = with(binding) {
-        etNoteTitle.addTextChangedListener { setEditedFlag() }
-        etNoteText.addTextChangedListener { setEditedFlag() }
+        etNoteTitle.addTextChangedListener { editedFlag = true }
+        etNoteText.addTextChangedListener { editedFlag = true }
         colorPicker.onColorClickListener = {
             currentColor = it
             setToolbarColor(currentColor)
-            setEditedFlag()
             colorPicker.close()
+            editedFlag = true
         }
     }
 
@@ -101,8 +102,6 @@ class NoteActivity : BaseActivity<Pair<Note?, Boolean>>() {
     private fun setActionbarText(text: String) {
         supportActionBar?.title = text
     }
-
-    private fun setEditedFlag() = run { editedFlag = true }
 
     private fun saveNote() {
         with(binding) {
