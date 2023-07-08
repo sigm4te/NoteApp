@@ -8,3 +8,4 @@
 * View Binding
 * Firebase (Firestore, Auth)
 * Koin
+* Coroutines
