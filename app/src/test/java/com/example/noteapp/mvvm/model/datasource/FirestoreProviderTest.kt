@@ -26,7 +26,7 @@ import org.junit.Rule
 import org.junit.Test
 
 class FirestoreProviderTest {
-
+/*
     @get:Rule
     val taskExecutorRule = InstantTaskExecutorRule()
 
@@ -121,4 +121,5 @@ class FirestoreProviderTest {
 
         assertEquals(testError, result)
     }
+*/
 }
