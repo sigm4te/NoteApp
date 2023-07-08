@@ -6,33 +6,53 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import com.example.noteapp.R
 import com.example.noteapp.mvvm.model.error.NoAuthException
 import com.example.noteapp.mvvm.viewmodel.BaseViewModel
-import com.example.noteapp.mvvm.viewstate.BaseViewState
 import com.firebase.ui.auth.AuthUI
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-abstract class BaseActivity<T, S : BaseViewState<T>> : AppCompatActivity() {
+abstract class BaseActivity<S> : AppCompatActivity(), CoroutineScope {
+
+    override val coroutineContext: CoroutineContext by lazy { Dispatchers.Main + Job() }
+    private lateinit var dataJob: Job
+    private lateinit var errorJob: Job
+
+    abstract val viewModel: BaseViewModel<S>
+    abstract val layout: View?
 
     companion object {
         private const val RC_SIGN_IN = 333
     }
 
-    abstract val viewModel: BaseViewModel<T, S>
-    abstract val layout: View?
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         layout?.let { setContentView(it) }
-        viewModel.getViewState().observe(this, Observer { state ->
-            state ?: return@Observer
-            state.error?.let {
-                renderError(it)
-                return@Observer
-            }
-            renderData(state.data)
-        })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dataJob = launch {
+            viewModel.getViewState().consumeEach { renderData(it) }
+        }
+        errorJob = launch {
+            viewModel.getError().consumeEach { renderError(it) }
+        }
+    }
+
+    abstract fun renderData(data: S)
+
+    private fun renderError(error: Throwable) {
+        when (error) {
+            is NoAuthException -> startLogin()
+            else -> error.message?.let { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
+        }
     }
 
     private fun startLogin() {
@@ -49,20 +69,20 @@ abstract class BaseActivity<T, S : BaseViewState<T>> : AppCompatActivity() {
         startActivityForResult(intent, RC_SIGN_IN)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == RC_SIGN_IN && resultCode != Activity.RESULT_OK) {
-            finish()
-        }
+        if (requestCode == RC_SIGN_IN && resultCode != Activity.RESULT_OK) { finish() }
     }
 
-    abstract fun renderData(data: T)
+    override fun onStop() {
+        dataJob.cancel()
+        errorJob.cancel()
+        super.onStop()
+    }
 
-    private fun renderError(error: Throwable) {
-        when (error) {
-            is NoAuthException -> startLogin()
-            else -> error.message?.let { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
-        }
+    override fun onDestroy() {
+        coroutineContext.cancel()
+        super.onDestroy()
     }
 }

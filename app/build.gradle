@@ -74,8 +74,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
     implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
 
-    //Koin
+    // Koin
     implementation 'io.insert-koin:koin-android:3.4.2'
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2'
 
     // Android
     implementation 'androidx.appcompat:appcompat:1.6.1'

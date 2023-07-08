@@ -1,14 +1,15 @@
 package com.example.noteapp.mvvm.model.datasource
 
-import androidx.lifecycle.LiveData
 import com.example.noteapp.mvvm.model.data.Result
 import com.example.noteapp.mvvm.model.data.entity.Note
 import com.example.noteapp.mvvm.model.data.entity.User
+import kotlinx.coroutines.channels.ReceiveChannel
 
 interface DataProvider {
-    fun getCurrentUser() : LiveData<User?>
-    fun subscribeToAllNotes() : LiveData<Result>
-    fun getNoteById(id: String) : LiveData<Result>
-    fun saveNote(note: Note) : LiveData<Result>
-    fun deleteNote(id: String) : LiveData<Result>
+    fun subscribeToAllNotes(): ReceiveChannel<Result>
+
+    suspend fun getCurrentUser(): User?
+    suspend fun getNoteById(id: String): Note?
+    suspend fun saveNote(note: Note): Note
+    suspend fun deleteNote(id: String)
 }

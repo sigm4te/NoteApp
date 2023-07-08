@@ -12,12 +12,11 @@ import com.example.noteapp.R
 import com.example.noteapp.databinding.ActivityMainBinding
 import com.example.noteapp.mvvm.model.data.entity.Note
 import com.example.noteapp.mvvm.viewmodel.MainViewModel
-import com.example.noteapp.mvvm.viewstate.MainViewState
 import com.example.noteapp.ui.adapter.NotesAdapter
 import com.firebase.ui.auth.AuthUI
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity<List<Note>?, MainViewState>() {
+class MainActivity : BaseActivity<List<Note>?>() {
 
     companion object {
         fun start(context: Context) = Intent(context, MainActivity::class.java).apply {

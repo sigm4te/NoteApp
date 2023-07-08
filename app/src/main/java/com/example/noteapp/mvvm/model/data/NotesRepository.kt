@@ -5,9 +5,10 @@ import com.example.noteapp.mvvm.model.datasource.DataProvider
 
 class NotesRepository(private val dataProvider: DataProvider) {
 
-    fun getCurrentUser() = dataProvider.getCurrentUser()
     fun getNotes() = dataProvider.subscribeToAllNotes()
-    fun getNoteById(id: String) = dataProvider.getNoteById(id)
-    fun saveNote(note: Note) = dataProvider.saveNote(note)
-    fun deleteNote(id: String) = dataProvider.deleteNote(id)
+
+    suspend fun getCurrentUser() = dataProvider.getCurrentUser()
+    suspend fun getNoteById(id: String) = dataProvider.getNoteById(id)
+    suspend fun saveNote(note: Note) = dataProvider.saveNote(note)
+    suspend fun deleteNote(id: String) = dataProvider.deleteNote(id)
 }
