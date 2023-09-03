@@ -5,7 +5,8 @@
 
 В приложении использовано:
 * MVVM
+* XML
 * View Binding
-* Firebase (Firestore, Auth)
-* Koin
-* Coroutines
+* Kotlin Coroutines
+- Firebase (Firestore, Auth)
+- Koin
